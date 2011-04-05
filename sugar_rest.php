@@ -211,23 +211,23 @@ class Sugar_REST {
 	*			module. In other words, any other modules involved
 	*			in the query will be related to the given base
 	*			module.
-	*		$fields	= (array) the fields you want to retrieve, based on
-	*			the module:
-	*			array(
-	*				'Cases' => array(
-	*					'field_name',
-	*					'some_other_field_name'
-	*				),
-	*				'Acounts' => array(
-	*					'field_name',
-	*					'some_other_field_name'
+	*		$fields		= (array) the fields you want to retrieve, based on
+	*				the module:
+	*				array(
+	*					'Cases' => array(
+	*						'field_name',
+	*						'some_other_field_name'
+	*					),
+	*					'Acounts' => array(
+	*						'field_name',
+	*						'some_other_field_name'
+	*					)
 	*				)
-	*			)
-	*		$options = (array)[optional] Lets you set options for the query:
-	*		$options['limit'] = Limit how many records returned
-	*		$options['offset'] = Query offset
-	*		$options['where'] = WHERE clause for an SQL statement
-	*		$options['order_by'] = ORDER BY clause for an SQL statement
+	*		$options 	= (array)[optional] Lets you set options for the query:
+	*				$options['limit'] = Limit how many records returned
+	*				$options['offset'] = Query offset
+	*				$options['where'] = WHERE clause for an SQL statement
+	*				$options['order_by'] = ORDER BY clause for an SQL statement
 	* Description:	Retrieves Sugar Bean records. Essentially returns the result of a
 	*		SELECT SQL statement, given a base module, any number of related of modules,
 	*		and respective fields for each module. Each row returned represents a 
@@ -295,16 +295,16 @@ class Sugar_REST {
 	*			module. In other words, any other modules involved
 	*			in the query will be related to the given base
 	*			module.
-	*		$fields	= (array) the fields you want to retrieve: 
-	*			array(
-	*				'field_name',
-	*				'some_other_field_name'
-	*			)
-	*		$options = (array)[optional] Lets you set options for the query:
-	*		$options['limit'] = Limit how many records returned
-	*		$options['offset'] = Query offset
-	*		$options['where'] = WHERE clause for an SQL statement
-	*		$options['order_by'] = ORDER BY clause for an SQL statement
+	*		$fields		= (array) the fields you want to retrieve: 
+	*				array(
+	*					'field_name',
+	*					'some_other_field_name'
+	*				)
+	*		$options	= (array)[optional] Lets you set options for the query:
+	*				$options['limit'] = Limit how many records returned
+	*				$options['offset'] = Query offset
+	*				$options['where'] = WHERE clause for an SQL statement
+	*				$options['order_by'] = ORDER BY clause for an SQL statement
 	* Description:	Retrieves Sugar Bean records. Essentially returns the result of a
 	*		SELECT SQL statement. 
 	* Returns:	A 2-D array, first dimension is records, second is fields. For instance, the
