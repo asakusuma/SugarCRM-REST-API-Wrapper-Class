@@ -3,11 +3,11 @@
 /**
  * SugarCRM REST API Class
  *
- * @package         SugarCRM
- * @category        Libraries
- * @author			Asa Kusuma
- * @license			MIT License
- * @link			http://github.com/asakusuma
+ * @package   	SugarCRM
+ * @category  	Libraries
+ * @author	Asa Kusuma
+ * @license	MIT License
+ * @link	http://github.com/asakusuma/SugarCRM-REST-API-Wrapper-Class/
  */
 
 
@@ -19,22 +19,22 @@ class Sugar_REST {
 	////////////////////////////////////////
 	
 	/**
-	* Variable:		$rest_url
+	* Variable:	$rest_url
 	* Description:	The URL of the SugarCRM REST API
-	* Example:		http://mydomain.com/sugarcrm/service/v2/rest.php
+	* Example:	http://mydomain.com/sugarcrm/service/v2/rest.php
 	*/
 	private $rest_url = "https://example.com/service/v2/rest.php";
 	
 	/**
-	* Variable:		$username
+	* Variable:	$username
 	* Description:	A SugarCRM Username. It's recommended that
-	*				you create a seperate SugarCRM User account
-	*				to make REST calls.
+	*		you create a seperate SugarCRM User account
+	*		to make REST calls.
 	*/
 	private $username = "";
 	
 	/**
-	* Variable:		$password
+	* Variable:	$password
 	* Description:	The password for the $username SugarCRM account
 	*/
 	private $password = "";
@@ -46,28 +46,28 @@ class Sugar_REST {
 	////////////////////////////////////////
 	
 	/**
-	* Variable:		$session
+	* Variable:	$session
 	* Description:	The session ID for REST calls
 	*/
 	private $session;
 	
 	/**
-	* Variable:		$logged_in
+	* Variable:	$logged_in
 	* Description:	Boolean flag for login status
 	*/
 	private $logged_in;
 	
 	/**
-	* Variable:		$error
+	* Variable:	$error
 	* Description:	The latest error
 	*/
 	private $error = FALSE;
 	
 	/**
-	* Function:		Sugar_REST()
+	* Function:	Sugar_REST()
 	* Parameters: 	none	
 	* Description:	Class constructor
-	* Returns:		TRUE on login success, otherwise FALSE
+	* Returns:	TRUE on login success, otherwise FALSE
 	*/
 	function Sugar_REST () {
 		if($this->login()) {
@@ -79,20 +79,20 @@ class Sugar_REST {
 	}
 	
 	/**
-	* Function:		get_error()
+	* Function:	get_error()
 	* Parameters: 	none	
 	* Description:	Gets the current error. The current error is sent whenever
-	*				an API call returns an error. When the function is called,
-	*				it returns and clears the current error.
-	* Returns:		Returns the error array in the form:
-	*				array(
-	*					'name' => [value],
-	*					'number' => [value],
-	*					'description'
-	*				)
-	*				if there is no error, returns FALSE
-	*				if the error array is corrupted, but there is still an
-	*				error, returns TRUE
+	*		an API call returns an error. When the function is called,
+	*		it returns and clears the current error.
+	* Returns:	Returns the error array in the form:
+	*			array(
+	*				'name' => [value],
+	*				'number' => [value],
+	*				'description'
+	*			)
+	*		If there is no error, returns FALSE.
+	*		If the error array is corrupted, but there is still an
+	*		error, returns TRUE.
 	*/
 	public function get_error() {
 		if(isset($this->error['name'])) {
@@ -109,13 +109,13 @@ class Sugar_REST {
 	}
 	
 	/**
-	* Function:		login()
+	* Function:	login()
 	* Parameters: 	none	
 	* Description:	Makes a 'login' API call which authenticates based on the $username
-	*				and $password class variables. If the login call succeeds, sets
-	*				the $session class variable as the session ID. If it fails, sets
-	*				the current error.
-	* Returns:		Returns TRUE on success, otherwise FALSE
+	*		and $password class variables. If the login call succeeds, sets
+	*		the $session class variable as the session ID. If it fails, sets
+	*		the current error.
+	* Returns:	Returns TRUE on success, otherwise FALSE
 	*/
 	private function login() {
 		$result = $this->rest_request(
@@ -142,30 +142,28 @@ class Sugar_REST {
 	}
 	
 	/**
-	* Function:		rest_request()
+	* Function:	rest_request()
 	* Parameters: 	$call_name	= (string) the API call name
-	*				$call_arguments	= (array) the arguments for the API call
+	*		$call_arguments	= (array) the arguments for the API call
 	* Description:	Makes an API call given a call name and arguments
-	*				checkout http://developers.sugarcrm.com/docs for documentation
-	*				on the specific API calls
-	* Returns:		An array with the API call response data
+	*		checkout http://developers.sugarcrm.com/docs for documentation
+	*		on the specific API calls
+	* Returns:	An array with the API call response data
 	*/
 	private function rest_request($call_name, $call_arguments) {
 
 		$ch = curl_init(); 
 		
 		$post_data = 'method=' . $call_name . '&input_type=json&response_type=json';
-		
 		$jsonEncodedData = json_encode($call_arguments);
-		
 		$post_data = $post_data . "&rest_data=" . $jsonEncodedData;
 		
-        curl_setopt($ch, CURLOPT_URL, $this->rest_url); 
+        	curl_setopt($ch, CURLOPT_URL, $this->rest_url); 
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
+        	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
 
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
-        $output = curl_exec($ch); 
+        	$output = curl_exec($ch); 
 		
 		$response_data = json_decode($output,true);
 		
@@ -173,13 +171,13 @@ class Sugar_REST {
 	}
 
 	/**
-	* Function:		is_valid_id($id)
+	* Function:	is_valid_id($id)
 	* Parameters: 	$id	= (string) the SugarCRM record ID
 	* Description:	Checks to see if the given string is in the valid
-	*				format for a SugarCRM record ID. This is for input
-	*				data sanitation, does not actually check to see if
-	*				if there is a record with the given ID.
-	* Returns:		TRUE if valid format, otherwise FALSE
+	*		format for a SugarCRM record ID. This is for input
+	*		data sanitation, does not actually check to see if
+	*		if there is a record with the given ID.
+	* Returns:	TRUE if valid format, otherwise FALSE
 	*/
 	public function is_valid_id($id) {
 		if(!is_string($id)) return FALSE;
@@ -207,35 +205,35 @@ class Sugar_REST {
 	}
 	
 	/**
-	* Function:		get_with_related($module, $fields, $options)
+	* Function:	get_with_related($module, $fields, $options)
 	* Parameters: 	$module	= (string) the SugarCRM module name. Usually first
-	*						letter capitalized. This is the name of the base
-	*						module. In other words, any other modules involved
-	*						in the query will be related to the given base
-	*						module.
-	*				$fields	= (array) the fields you want to retrieve, based on
-	*						the module:
-	*						array(
-	*							'Cases' => array(
-	*								'field_name',
-	*								'some_other_field_name'
-	*							),
-	*							'Acounts' => array(
-	*								'field_name',
-	*								'some_other_field_name'
-	*							)
-	*						)
-	*				$options = (array)[optional] Lets you set options for the query:
-	*								$options['limit'] = Limit how many records returned
-	*								$options['offset'] = Query offset
-	*								$options['where'] = WHERE clause for an SQL statement
-	*								$options['order_by'] = ORDER BY clause for an SQL statement
+	*		letter capitalized. This is the name of the base
+	*		module. In other words, any other modules involved
+	*		in the query will be related to the given base
+	*		module.
+	*		$fields	= (array) the fields you want to retrieve, based on
+	*			the module:
+	*			array(
+	*				'Cases' => array(
+	*					'field_name',
+	*					'some_other_field_name'
+	*				),
+	*				'Acounts' => array(
+	*					'field_name',
+	*					'some_other_field_name'
+	*				)
+	*			)
+	*		$options = (array)[optional] Lets you set options for the query:
+	*		$options['limit'] = Limit how many records returned
+	*		$options['offset'] = Query offset
+	*		$options['where'] = WHERE clause for an SQL statement
+	*		$options['order_by'] = ORDER BY clause for an SQL statement
 	* Description:	Retrieves Sugar Bean records. Essentially returns the result of a
-	*				SELECT SQL statement, given a base module, any number of related of modules,
-	*				and respective fields for each module. Each row returned represents a 
-	*				single record of the base module. Each row may have multiple records from.
-	*				related modules.
-	* Returns:		Result of API call in an array.
+	*		SELECT SQL statement, given a base module, any number of related of modules,
+	*		and respective fields for each module. Each row returned represents a 
+	*		single record of the base module. Each row may have multiple records from.
+	*		related modules.
+	* Returns:	Result of API call in an array.
 	*/
 	public function get_with_related($module,$fields,$options=null) {
 		
@@ -291,26 +289,26 @@ class Sugar_REST {
 	}
 	
 	/**
-	* Function:		get($module, $fields, $options)
+	* Function:	get($module, $fields, $options)
 	* Parameters: 	$module	= (string) the SugarCRM module name. Usually first
-	*						letter capitalized. This is the name of the base
-	*						module. In other words, any other modules involved
-	*						in the query will be related to the given base
-	*						module.
-	*				$fields	= (array) the fields you want to retrieve, 
-	*						array(
-	*							'field_name',
-	*							'some_other_field_name'
-	*						)
-	*				$options = (array)[optional] Lets you set options for the query:
-	*								$options['limit'] = Limit how many records returned
-	*								$options['offset'] = Query offset
-	*								$options['where'] = WHERE clause for an SQL statement
-	*								$options['order_by'] = ORDER BY clause for an SQL statement
+	*		letter capitalized. This is the name of the base
+	*		module. In other words, any other modules involved
+	*		in the query will be related to the given base
+	*		module.
+	*		$fields	= (array) the fields you want to retrieve: 
+	*			array(
+	*				'field_name',
+	*				'some_other_field_name'
+	*			)
+	*		$options = (array)[optional] Lets you set options for the query:
+	*		$options['limit'] = Limit how many records returned
+	*		$options['offset'] = Query offset
+	*		$options['where'] = WHERE clause for an SQL statement
+	*		$options['order_by'] = ORDER BY clause for an SQL statement
 	* Description:	Retrieves Sugar Bean records. Essentially returns the result of a
-	*				SELECT SQL statement. 
-	* Returns:		A 2-D array, first dimension is records, second is fields. For instance, the
-	*				'name' field in the first record would be accessed in $result[0]['name].
+	*		SELECT SQL statement. 
+	* Returns:	A 2-D array, first dimension is records, second is fields. For instance, the
+	*		'name' field in the first record would be accessed in $result[0]['name].
 	*/
 	public function get($module,$fields,$options=null) {
 		$results = $this->get_with_related($module,array($module => $fields),$options);
@@ -326,19 +324,19 @@ class Sugar_REST {
 	}
 	
 	/**
-	* Function:		set($module, $values)
+	* Function:	set($module, $values)
 	* Parameters: 	$module	= (string) the SugarCRM module name. Usually first
-	*						letter capitalized.
-	*				$values	= (array) the data of the record to be set in
-	*						the form:
-	*						array(
-	*							'id' => 'some value',
-	*							'field_name' => 'some other value'
-	*						)
+	*			letter capitalized.
+	*		$values	= (array) the data of the record to be set in
+	*		the form:
+	*			array(
+	*				'id' => 'some value',
+	*				'field_name' => 'some other value'
+	*			)
 	*						
 	* Description:	Saves or creates a SugarCRM record, depending on whether	
-	*				or not the 'id' field in the $values parameter is set.
-	* Returns:		Result of API call in an array.
+	*		or not the 'id' field in the $values parameter is set.
+	* Returns:	Result of API call in an array.
 	*/
 	public function set($module,$values) {
 		$call_arguments = array(
@@ -383,12 +381,12 @@ class Sugar_REST {
 	}
 	
 	/**
-	* Function:		get_note_attachment($note_id)
+	* Function:	get_note_attachment($note_id)
 	* Parameters: 	$note_id	= (string) the SugarCRM record ID
 	* Description:	Gets the attachment of a note given an id. See
-	*				README for an example on use
-	* Returns:		Attachment data in an array on success. Actual file
-	*				data will be in binary format. Otherwise FALSE.
+	*		README for an example on use
+	* Returns:	Attachment data in an array on success. Actual file
+	*		data will be in binary format. Otherwise FALSE.
 	*/
 	public function get_note_attachment($note_id) {
 		if($this->is_valid_id($note_id)) {
@@ -407,10 +405,10 @@ class Sugar_REST {
 	}
 	
 	/**
-	* Function:		set_note_attachment($note_id, $file, $filename)
+	* Function:	set_note_attachment($note_id, $file, $filename)
 	* Parameters: 	$note_id	= (string) the SugarCRM record ID
-	*				$file		= (string) the file in binary format
-	*				$filename	= (string) the name of the file
+	*		$file		= (string) the file in binary format
+	*		$filename	= (string) the name of the file
 	* Description:	Sets the attachment for a note. Will replace the old
 	*				note if one already exists. See README for example on use
 	* Returns:		Result of API call in an array.
@@ -436,11 +434,11 @@ class Sugar_REST {
 	}
 	
 	/**
-	* Function:		__destruct()
+	* Function:	__destruct()
 	* Parameters: 	none
 	* Description:	Closes the API connection when the PHP class
-	*				object is destroyed
-	* Returns:		nothing
+	*		object is destroyed
+	* Returns:	nothing
 	*/
 	function __destruct() {
 		if($this->logged_in) {
