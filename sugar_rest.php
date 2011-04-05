@@ -207,10 +207,10 @@ class Sugar_REST {
 	/**
 	* Function:	get_with_related($module, $fields, $options)
 	* Parameters: 	$module	= (string) the SugarCRM module name. Usually first
-	*		letter capitalized. This is the name of the base
-	*		module. In other words, any other modules involved
-	*		in the query will be related to the given base
-	*		module.
+	*			letter capitalized. This is the name of the base
+	*			module. In other words, any other modules involved
+	*			in the query will be related to the given base
+	*			module.
 	*		$fields	= (array) the fields you want to retrieve, based on
 	*			the module:
 	*			array(
@@ -291,10 +291,10 @@ class Sugar_REST {
 	/**
 	* Function:	get($module, $fields, $options)
 	* Parameters: 	$module	= (string) the SugarCRM module name. Usually first
-	*		letter capitalized. This is the name of the base
-	*		module. In other words, any other modules involved
-	*		in the query will be related to the given base
-	*		module.
+	*			letter capitalized. This is the name of the base
+	*			module. In other words, any other modules involved
+	*			in the query will be related to the given base
+	*			module.
 	*		$fields	= (array) the fields you want to retrieve: 
 	*			array(
 	*				'field_name',
