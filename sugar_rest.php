@@ -309,10 +309,20 @@ class Sugar_REST {
 	*								$options['order_by'] = ORDER BY clause for an SQL statement
 	* Description:	Retrieves Sugar Bean records. Essentially returns the result of a
 	*				SELECT SQL statement. 
-	* Returns:		Result of API call in an array.
+	* Returns:		A 2-D array, first dimension is records, second is fields. For instance, the
+	*				'name' field in the first record would be accessed in $result[0]['name].
 	*/
 	public function get($module,$fields,$options=null) {
-		return $this->get_with_related($module,array($module => $fields),$options);
+		$results = $this->get_with_related($module,array($module => $fields),$options);
+		$records = array();
+		foreach($results['entry_list'] as $entry) {
+			$record = array();
+			foreach($entry['name_value_list'] as $field) {
+				$record[$field['name']] = $field['value'];
+			}
+			$records[] = $record;
+		}
+		return $records;
 	}
 	
 	/**

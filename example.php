@@ -45,6 +45,6 @@ $error = $sugar->get_error();
 if($error !== FALSE) {
 	echo $error['name'];
 }
-$results = $sugar->get("Accounts", array('id','name'));
+$results = $sugar->get_with_related("Accounts", array("Accounts" => array('id','name'), "Cases" => array('id','status')));
 $sugar->print_results($results);
 ?>
