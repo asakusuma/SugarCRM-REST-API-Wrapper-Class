@@ -17,8 +17,8 @@ Contents
 6. set_note_attachment() Example
 
 
-1. About
---------
+1.About
+-------
 - PHP wrapper class for interacting with a SugarCRM REST API
 - Creating, reading, and updating capability
 - More info on SugarCRM: http://www.sugarcrm.com/
@@ -26,14 +26,14 @@ Contents
 - Designed to work with SugarCRM v.6
 
 
-2. Installation
----------------
+2.Installation
+--------------
 1. Configure by setting the $rest_url, $username, and $password class variables in the sugar_rest.php class file. The username and password of any SugarCRM user should work. It's recommended that you create a new SugarCRM user account to be exclusively used for authenticating API calls.
 2. Just import the class with `require("sugar_rest.php");` and code away!
 
 
-3. Usage Example
-----------------
+3.Usage Example
+---------------
 	require_once("sugar_rest.php");
 	$sugar = new Sugar_REST();
 	$results = $sugar->get("Accounts",array('id','name'));
@@ -42,15 +42,15 @@ Contents
 See example.php for another example.
 
 
-4. Notes
---------
+4.Notes
+-------
 - The `is_valid_id()` function may need to modify for different versions
 of SugarCRM. 
 - Different versions of SugarCRM have different ID formats.
 
 
-5. get_note_attachment() Example
---------------------------------
+5.get_note_attachment() Example
+-------------------------------
 >This example outputs the contents of a note's attachment, given the
 >note ID. Assumes $note_id contains the ID of the note you wish to modify.
 
@@ -75,8 +75,8 @@ of SugarCRM.
 	exit;
 
 
-6. get_note_attachment() Example
---------------------------------
+6.get_note_attachment() Example
+-------------------------------
 >This example illustrates how to set a note's attachment from an html form.
 >Assumes $note_id contains the ID of the note you wish to modify.
 
