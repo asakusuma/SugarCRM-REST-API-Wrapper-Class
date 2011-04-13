@@ -154,7 +154,7 @@ class Sugar_REST {
 
 		$ch = curl_init(); 
 		
-		$post_data = 'method=' . $call_name . '&input_type=json&response_type=json';
+		$post_data = 'method=' . $call_name . '&input_type=JSON&response_type=JSON';
 		$jsonEncodedData = json_encode($call_arguments);
 		$post_data = $post_data . "&rest_data=" . $jsonEncodedData;
 		

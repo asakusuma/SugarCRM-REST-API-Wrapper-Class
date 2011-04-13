@@ -43,7 +43,7 @@ See example.php for another example.
 
 
 4. Notes
------------
+--------
 - The `is_valid_id()` function may need to modify for different versions
 of SugarCRM. 
 - Different versions of SugarCRM have different ID formats.
