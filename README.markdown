@@ -28,7 +28,7 @@ Contents
 
 2. Installation
 ---------------
-1.	Configure by setting the $rest_url, $username, and $password class variables in the sugar_rest.php class file. The username and password of any SugarCRM user should work. It's recommended that you create a new SugarCRM user account to be exclusively used for authenticating API calls.
+1. Configure by setting the $rest_url, $username, and $password class variables in the sugar_rest.php class file. The username and password of any SugarCRM user should work. It's recommended that you create a new SugarCRM user account to be exclusively used for authenticating API calls.
 2. Just import the class with `require("sugar_rest.php");` and code away!
 
 
