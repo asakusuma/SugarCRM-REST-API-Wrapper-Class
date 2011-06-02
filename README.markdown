@@ -57,20 +57,18 @@ of SugarCRM.
 	require_once("sugar_rest.php");
 	$sugar = new Sugar_REST();
 
-	$result = $this->sugar->get_note_attachment($note_id);
+	$result = $this->sugar->get_note_attachment($note);
 	$filename = $result['note_attachment']['filename'];
 	$file = $result['note_attachment']['file'];
 
-	header('Content-Description: File Transfer');
-	header('Content-Type: application/octet-stream');
-	header('Content-Disposition: attachment; filename='.basename($filename));
-	header('Content-Transfer-Encoding: binary');
-	header('Expires: 0');
-	header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-	header('Pragma: public');
-	header('Content-Length: ' . filesize($file));
-	ob_clean();
-	flush();
+	
+	$file = base64_decode($file);
+	header("Cache-Control: no-cache private");
+	header("Content-Description: File Transfer");
+	header('Content-disposition: attachment; filename='.$filename);
+	header("Content-Type: application/vnd.ms-excel");
+	header("Content-Transfer-Encoding: binary");
+	header('Content-Length: '. strlen($file));
 	echo $file;
 	exit;
 
