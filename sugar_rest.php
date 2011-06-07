@@ -240,9 +240,7 @@ class Sugar_REST {
 		if(sizeof($fields) < 1) {
 			return FALSE;
 		}
-		
-		$module = ucfirst($module);
-		
+				
 		//Set the defaults for the options
 		if(!isset($options['limit'])) {
 			$options['limit'] = 20;
@@ -313,14 +311,17 @@ class Sugar_REST {
 	public function get($module,$fields,$options=null) {
 		$results = $this->get_with_related($module,array($module => $fields),$options);
 		$records = array();
-		foreach($results['entry_list'] as $entry) {
-			$record = array();
-			foreach($entry['name_value_list'] as $field) {
-				$record[$field['name']] = $field['value'];
-			}
-			$records[] = $record;
-		}
-		return $records;
+		if ($records)
+		{
+    		foreach($results['entry_list'] as $entry) {
+    			$record = array();
+    			foreach($entry['name_value_list'] as $field) {
+    				$record[$field['name']] = $field['value'];
+    			}
+    			$records[] = $record;
+    		}
+    	}
+    	return $records;
 	}
 	
 	/**
