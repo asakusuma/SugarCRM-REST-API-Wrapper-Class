@@ -57,7 +57,7 @@ of SugarCRM.
 	require_once("sugar_rest.php");
 	$sugar = new Sugar_REST();
 
-	$result = $this->sugar->get_note_attachment($note);
+	$result = $sugar->get_note_attachment($note);
 	$filename = $result['note_attachment']['filename'];
 	$file = $result['note_attachment']['file'];
 
@@ -94,5 +94,5 @@ of SugarCRM.
 		$filename = $_FILES['note_file']['name'];
 		$contents = fread($handle, filesize($_FILES['note_file']['tmp_name']));
 		$binary = base64_encode($contents);
-		$file_results = $this->sugar->set_note_attachment($note_id,$binary,$filename);
+		$file_results = $sugar->set_note_attachment($note_id,$binary,$filename);
 	}
