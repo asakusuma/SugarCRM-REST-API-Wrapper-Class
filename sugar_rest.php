@@ -311,17 +311,16 @@ class Sugar_REST {
 	public function get($module,$fields,$options=null) {
 		$results = $this->get_with_related($module,array($module => $fields),$options);
 		$records = array();
-		if ($records)
-		{
-    		foreach($results['entry_list'] as $entry) {
-    			$record = array();
-    			foreach($entry['name_value_list'] as $field) {
-    				$record[$field['name']] = $field['value'];
+		if ($results) {
+    			foreach($results['entry_list'] as $entry) {
+    				$record = array();
+    				foreach($entry['name_value_list'] as $field) {
+    					$record[$field['name']] = $field['value'];
+    				}
+    				$records[] = $record;
     			}
-    			$records[] = $record;
     		}
-    	}
-    	return $records;
+    		return $records;
 	}
 	
 	/**
