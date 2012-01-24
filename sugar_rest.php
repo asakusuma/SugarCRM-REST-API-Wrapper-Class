@@ -69,8 +69,24 @@ class Sugar_REST {
 	* Description:	Class constructor
 	* Returns:	TRUE on login success, otherwise FALSE
 	*/
-	function Sugar_REST () {
-		if($this->login()) {
+	function Sugar_REST($rest_url=null,$username=null,$password=null,$md5_password=true) 
+	{
+	    if (!is_null($rest_url))
+	    {
+	        $this->rest_url = $rest_url;
+	    }
+	    
+	    if (!is_null($username))
+	    {
+            $this->username = $username;
+	    }
+
+        if (!is_null($password))
+        {
+            $this->password = $password;
+        }
+        
+		if($this->login($md5_password)) {
 			$this->logged_in = TRUE;
 			$data['session'] = $this->session;
 		} else {
@@ -117,11 +133,19 @@ class Sugar_REST {
 	*		the current error.
 	* Returns:	Returns TRUE on success, otherwise FALSE
 	*/
-	private function login() {
+	private function login($md5_password=true) {
+	    
+	    // run md5 on password if needed
+	    $password = $this->password;
+	    if ($md5_password)
+	    {
+	        $password = md5($this->password);
+	    }
+	    
 		$result = $this->rest_request(
 			'login',
 			array(
-				'user_auth' => array('user_name'=>$this->username,'password'=> md5($this->password)),
+				'user_auth' => array('user_name'=>$this->username,'password'=>$password),
 				'name_value_list' => array(array('name' => 'notifyonsave', 'value' => 'true'))
 			)
 		);
@@ -433,6 +457,17 @@ class Sugar_REST {
 		return $result;
 	}
 	
+	/**
+	* Function:	is_logged_in()
+	* Parameters: 	none
+	* Description:	Simple getter for logged_in private variable
+	* Returns:	boolean
+	*/
+	function is_logged_in()
+	{
+	    return $this->logged_in;
+	}
+
 	/**
 	* Function:	__destruct()
 	* Parameters: 	none
