@@ -182,12 +182,11 @@ class Sugar_REST {
 		$jsonEncodedData = json_encode($call_arguments);
 		$post_data = $post_data . "&rest_data=" . $jsonEncodedData;
 		
-        	curl_setopt($ch, CURLOPT_URL, $this->rest_url); 
+        curl_setopt($ch, CURLOPT_URL, $this->rest_url); 
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-        	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
-
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
-        	$output = curl_exec($ch); 
+        $output = curl_exec($ch); 
 		
 		$response_data = json_decode($output,true);
 		
