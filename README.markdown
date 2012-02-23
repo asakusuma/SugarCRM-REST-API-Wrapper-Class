@@ -61,7 +61,6 @@ of SugarCRM.
 	$filename = $result['note_attachment']['filename'];
 	$file = $result['note_attachment']['file'];
 
-	
 	$file = base64_decode($file);
 	header("Cache-Control: no-cache private");
 	header("Content-Description: File Transfer");
