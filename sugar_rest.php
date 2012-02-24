@@ -466,6 +466,86 @@ class Sugar_REST {
 	{
 	    return $this->logged_in;
 	}
+	
+	    /**
+    * Function:	get_available_modules()
+    * Description:	Retrieve the list of available modules on the system available        
+    *              to the currently logged in user.
+    * Returns:		Result of API call in an array.
+    */
+    public function get_available_modules() {
+
+        $call_arguments = array(
+            'session' => $this->session
+        );
+
+        $result = $this->rest_request(
+                'get_available_modules', $call_arguments
+        );
+
+        return $result;
+    }
+
+    /**
+    * Function:	get_module_fields($module, $fields, $filename)
+    * Parameters: 	$module	= (string) The name of the module to return records from.  
+    * 				This name should be the name the module was developed under 
+    * 				(changing a tab name is studio does not affect the name that 
+    * 				should be passed into this method)..
+    * 		$fields		= (array) Optional, if passed then retrieve vardef information 
+    * 							  on these fields only.
+    * 				the form:
+    * 				array(
+    * 						'module_fields' => 'vardef information on selected fields.',
+    * 						'link_fields' => 'vardef information on link fields'
+    * 					 )
+    * Description:	The name of the module to return records from.  This name should be 
+    * 				the name the module was developed under (changing a tab name 
+    * 				is studio does not affect the name that should be passed into this 
+    * 				method)..
+    * Returns:		Result of API call in an array.
+    */
+    public function get_module_fields($module) {
+        $call_arguments = array(
+            'session' => $this->session,
+            'module_name' => $module
+        );
+
+        $result = $this->rest_request(
+                'get_module_fields', $call_arguments
+        );
+
+        return $result;
+    }
+
+
+    /**
+    * Function:		 search_by_module($search_string, $modules, $offset, $max_results)
+    *
+    * Parameters:    $search_string = (string) The name of the string to search
+    * 				 $modules	    = (string[]) The array of modules to query
+    * 				 $offset		= (int) A specified offset in the query
+    * 				 $max_results	= (int) Max number of records to return
+    * Description:   Given a list of modules to search and a search string, return the id, 
+    *                module_name, along with the fields.  We will support Accounts, Bug Tracker, 
+    * 				 Cases, Contacts, Leads, Opportunities, Project, ProjectTask, Quotes
+    * Returns:		Result of API call in an array.
+    */
+    public function search_by_module($search_string, $modules, $offset, $max_results) {
+        $call_arguments = array(
+            'session' => $this->session,
+            'search_string' => $search_string,
+            'modules' => $modules,
+            'offset' => $offset,
+            'max_results' => $max_results,
+        );
+
+        $result = $this->rest_request(
+                'search_by_module', $call_arguments
+        );
+
+        return $result;
+    }
 
 	/**
 	* Function:	__destruct()
@@ -484,6 +564,7 @@ class Sugar_REST {
 			);
 		}
 	}
+	
 }
 
 ?>
