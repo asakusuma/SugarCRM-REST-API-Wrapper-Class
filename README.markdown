@@ -95,3 +95,17 @@ of SugarCRM.
 		$binary = base64_encode($contents);
 		$file_results = $sugar->set_note_attachment($note_id,$binary,$filename);
 	}
+	
+7.get_available_modules() Example
+-------------------------------
+>This example illustrates how to get the available modules in Sugar.  All of them.  
+>This is a handy function to use when building future proof sugarcrm plugins.
+>
+
+### PHP Code (example.php)
+	require_once("sugar_rest.php");
+	$sugar = new Sugar_REST();
+	$modules = $sugar->get_available_modules();
+>BAM! Now loop through the array that was returned and stored in $modules.  You could use this
+>to display a dropdown in the admin panel that displays all modules a user would want to connect your
+>sugarcrm plugin to.  
