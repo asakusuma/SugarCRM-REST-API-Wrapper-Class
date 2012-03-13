@@ -403,6 +403,23 @@ class Sugar_REST {
 		}
 	}
 	
+	public function set_relationship($module_name, $module_id, $link_field_name, $related_ids){
+		$call_arguments = array(
+			'session' => $this->session,
+			'module_name' => $module_name,
+			'module_id' => $module_id,
+			'link_field_name' => $link_field_name,
+			'related_ids' => array($related_ids)
+		);
+		
+		$result = $this->rest_request(
+			'set_relationship',
+			$call_arguments
+		);
+
+		return $result;
+	}
+	
 	/**
 	* Function:	get_note_attachment($note_id)
 	* Parameters: 	$note_id	= (string) the SugarCRM record ID
