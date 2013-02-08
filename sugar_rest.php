@@ -170,7 +170,7 @@ class Sugar_REST {
 	* Parameters: 	$call_name	= (string) the API call name
 	*		$call_arguments	= (array) the arguments for the API call
 	* Description:	Makes an API call given a call name and arguments
-	*		checkout http://developers.sugarcrm.com/docs for documentation
+	*		checkout http://developers.sugarcrm.com/documentation.php for documentation
 	*		on the specific API calls
 	* Returns:	An array with the API call response data
 	*/
