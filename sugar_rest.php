@@ -251,6 +251,7 @@ class Sugar_REST {
 	*				$options['offset'] = Query offset
 	*				$options['where'] = WHERE clause for an SQL statement
 	*				$options['order_by'] = ORDER BY clause for an SQL statement
+	*				$options['deleted'] = '0' or '1'
 	* Description:	Retrieves Sugar Bean records. Essentially returns the result of a
 	*		SELECT SQL statement, given a base module, any number of related of modules,
 	*		and respective fields for each module. Each row returned represents a
@@ -278,7 +279,7 @@ class Sugar_REST {
 			$options['order_by'] = null;
 		}
 		if(!isset($options['deleted'])) {
-			$options['deleted'] = '0';
+			$options['deleted'] = 0;
 		}
 		if(!isset($fields[$module])) {
 			return FALSE;
@@ -329,6 +330,7 @@ class Sugar_REST {
 	*				$options['offset'] = Query offset
 	*				$options['where'] = WHERE clause for an SQL statement
 	*				$options['order_by'] = ORDER BY clause for an SQL statement
+	*				$options['deleted'] = '0' or '1'
 	* Description:	Retrieves Sugar Bean records. Essentially returns the result of a
 	*		SELECT SQL statement.
 	* Returns:	A 2-D array, first dimension is records, second is fields. For instance, the
