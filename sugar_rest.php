@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 /**
  * SugarCRM REST API Class
@@ -12,19 +12,19 @@
 
 
 class Sugar_REST {
-
+	
 	////////////////////////////////////////
 	/// Settings Variables
 	/// (Edit to configure)
 	////////////////////////////////////////
-
+	
 	/**
 	* Variable:	$rest_url
 	* Description:	The URL of the SugarCRM REST API
 	* Example:	http://mydomain.com/sugarcrm/service/v2/rest.php
 	*/
 	private $rest_url = "https://example.com/service/v2/rest.php";
-
+	
 	/**
 	* Variable:	$username
 	* Description:	A SugarCRM Username. It's recommended that
@@ -32,50 +32,50 @@ class Sugar_REST {
 	*		to make REST calls.
 	*/
 	private $username = "";
-
+	
 	/**
 	* Variable:	$password
 	* Description:	The password for the $username SugarCRM account
 	*/
 	private $password = "";
-
-
+	
+	
 	////////////////////////////////////////
 	/// Other Variables
 	/// (Don't edit)
 	////////////////////////////////////////
-
+	
 	/**
 	* Variable:	$session
 	* Description:	The session ID for REST calls
 	*/
 	private $session;
-
+	
 	/**
 	* Variable:	$logged_in
 	* Description:	Boolean flag for login status
 	*/
 	private $logged_in;
-
+	
 	/**
 	* Variable:	$error
 	* Description:	The latest error
 	*/
 	private $error = FALSE;
-
+	
 	/**
 	* Function:	Sugar_REST()
-	* Parameters: 	none
+	* Parameters: 	none	
 	* Description:	Class constructor
 	* Returns:	TRUE on login success, otherwise FALSE
 	*/
-	function Sugar_REST($rest_url=null,$username=null,$password=null,$md5_password=true)
+	function Sugar_REST($rest_url=null,$username=null,$password=null,$md5_password=true) 
 	{
 	    if (!is_null($rest_url))
 	    {
 	        $this->rest_url = $rest_url;
 	    }
-
+	    
 	    if (!is_null($username))
 	    {
             $this->username = $username;
@@ -85,7 +85,7 @@ class Sugar_REST {
         {
             $this->password = $password;
         }
-
+        
 		if($this->login($md5_password)) {
 			$this->logged_in = TRUE;
 			$data['session'] = $this->session;
@@ -93,10 +93,10 @@ class Sugar_REST {
 			$this->logged_in = FALSE;
 		}
 	}
-
+	
 	/**
 	* Function:	get_error()
-	* Parameters: 	none
+	* Parameters: 	none	
 	* Description:	Gets the current error. The current error is sent whenever
 	*		an API call returns an error. When the function is called,
 	*		it returns and clears the current error.
@@ -123,10 +123,10 @@ class Sugar_REST {
 			return TRUE;
 		}
 	}
-
+	
 	/**
 	* Function:	login()
-	* Parameters: 	none
+	* Parameters: 	none	
 	* Description:	Makes a 'login' API call which authenticates based on the $username
 	*		and $password class variables. If the login call succeeds, sets
 	*		the $session class variable as the session ID. If it fails, sets
@@ -134,14 +134,14 @@ class Sugar_REST {
 	* Returns:	Returns TRUE on success, otherwise FALSE
 	*/
 	private function login($md5_password=true) {
-
+	    
 	    // run md5 on password if needed
 	    $password = $this->password;
 	    if ($md5_password)
 	    {
 	        $password = md5($this->password);
 	    }
-
+	    
 		$result = $this->rest_request(
 			'login',
 			array(
@@ -164,7 +164,7 @@ class Sugar_REST {
 			return FALSE;
 		}
 	}
-
+	
 	/**
 	* Function:	rest_request()
 	* Parameters: 	$call_name	= (string) the API call name
@@ -176,20 +176,20 @@ class Sugar_REST {
 	*/
 	private function rest_request($call_name, $call_arguments) {
 
-		$ch = curl_init();
-
+		$ch = curl_init(); 
+		
 		$post_data = 'method='.$call_name.'&input_type=JSON&response_type=JSON';
 		$jsonEncodedData = json_encode($call_arguments);
 		$post_data = $post_data . "&rest_data=" . $jsonEncodedData;
-
-        curl_setopt($ch, CURLOPT_URL, $this->rest_url);
+		
+        curl_setopt($ch, CURLOPT_URL, $this->rest_url); 
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
-        $output = curl_exec($ch);
-
+        $output = curl_exec($ch); 
+		
 		$response_data = json_decode($output,true);
-
+		
 		return $response_data;
 	}
 
@@ -206,7 +206,7 @@ class Sugar_REST {
 		if(!is_string($id)) return FALSE;
 		return preg_match("/[0-9a-z\-]+/",$id);
 	}
-
+	
 	public function count_records($module, $query) {
 		$call_arguments = array(
 			'session' => $this->session,
@@ -214,19 +214,19 @@ class Sugar_REST {
 			'query' => $query,
 			'deleted' => 0
 		);
-
+		
 		$result = $this->rest_request(
 			'get_entries_count',
 			$call_arguments
 		);
-
+		
 		if(isset($result['result_count'])) {
-			return $result['result_count'];
+			return $result['result_count'];	
 		} else {
 			return FALSE;
 		}
 	}
-
+	
 	/**
 	* Function:	get_with_related($module, $fields, $options)
 	* Parameters: 	$module	= (string) the SugarCRM module name. Usually first
@@ -254,17 +254,17 @@ class Sugar_REST {
 	*				$options['deleted'] = '0' or '1'
 	* Description:	Retrieves Sugar Bean records. Essentially returns the result of a
 	*		SELECT SQL statement, given a base module, any number of related of modules,
-	*		and respective fields for each module. Each row returned represents a
+	*		and respective fields for each module. Each row returned represents a 
 	*		single record of the base module. Each row may have multiple records from.
 	*		related modules.
 	* Returns:	Result of API call in an array.
 	*/
 	public function get_with_related($module,$fields,$options=null) {
-
+		
 		if(sizeof($fields) < 1) {
 			return FALSE;
 		}
-
+				
 		//Set the defaults for the options
 		if(!isset($options['limit'])) {
 			$options['limit'] = 20;
@@ -284,10 +284,10 @@ class Sugar_REST {
 		if(!isset($fields[$module])) {
 			return FALSE;
 		}
-
+		
 		$base_fields = $fields[$module];
 		unset($fields[$module]);
-
+		
 		$relationships = array();
 		foreach($fields as $related_module => $fields_list) {
 			$relationships[] = array('name' => strtolower($related_module), 'value' => $fields_list);
@@ -309,10 +309,10 @@ class Sugar_REST {
 			'get_entry_list',
 			$call_arguments
 		);
-
+		
 		return $result;
 	}
-
+	
 	/**
 	* Function:	get($module, $fields, $options)
 	* Parameters: 	$module	= (string) the SugarCRM module name. Usually first
@@ -320,7 +320,7 @@ class Sugar_REST {
 	*			module. In other words, any other modules involved
 	*			in the query will be related to the given base
 	*			module.
-	*		$fields		= (array) the fields you want to retrieve:
+	*		$fields		= (array) the fields you want to retrieve: 
 	*				array(
 	*					'field_name',
 	*					'some_other_field_name'
@@ -332,7 +332,7 @@ class Sugar_REST {
 	*				$options['order_by'] = ORDER BY clause for an SQL statement
 	*				$options['deleted'] = '0' or '1'
 	* Description:	Retrieves Sugar Bean records. Essentially returns the result of a
-	*		SELECT SQL statement.
+	*		SELECT SQL statement. 
 	* Returns:	A 2-D array, first dimension is records, second is fields. For instance, the
 	*		'name' field in the first record would be accessed in $result[0]['name].
 	*/
@@ -350,7 +350,7 @@ class Sugar_REST {
     		}
     		return $records;
 	}
-
+	
 	/**
 	* Function:	set($module, $values)
 	* Parameters: 	$module	= (string) the SugarCRM module name. Usually first
@@ -361,8 +361,8 @@ class Sugar_REST {
 	*				'id' => 'some value',
 	*				'field_name' => 'some other value'
 	*			)
-	*
-	* Description:	Saves or creates a SugarCRM record, depending on whether
+	*						
+	* Description:	Saves or creates a SugarCRM record, depending on whether	
 	*		or not the 'id' field in the $values parameter is set.
 	* Returns:	Result of API call in an array.
 	*/
@@ -372,7 +372,7 @@ class Sugar_REST {
 			'module_name' => $module,
 			'name_value_list' => $values,
 		);
-
+		
 		$result = $this->rest_request(
 			'set_entry',
 			$call_arguments
@@ -407,7 +407,7 @@ class Sugar_REST {
 			}
 		}
 	}
-
+	
 	public function set_relationship($module_name, $module_id, $link_field_name, $related_ids){
 		$call_arguments = array(
 			'session' => $this->session,
@@ -416,7 +416,7 @@ class Sugar_REST {
 			'link_field_name' => $link_field_name,
 			'related_ids' => array($related_ids)
 		);
-
+		
 		$result = $this->rest_request(
 			'set_relationship',
 			$call_arguments
@@ -424,7 +424,7 @@ class Sugar_REST {
 
 		return $result;
 	}
-
+	
 	/**
 	* Function:	get_note_attachment($note_id)
 	* Parameters: 	$note_id	= (string) the SugarCRM record ID
@@ -448,7 +448,7 @@ class Sugar_REST {
 		}
 		return FALSE;
 	}
-
+	
 	/**
 	* Function:	set_note_attachment($note_id, $file, $filename)
 	* Parameters: 	$note_id	= (string) the SugarCRM record ID
@@ -459,7 +459,7 @@ class Sugar_REST {
 	* Returns:		Result of API call in an array.
 	*/
 	public function set_note_attachment($note_id,$file,$filename) {
-
+		
 		$call_arguments = array(
 			'session' => $this->session,
 			'note' => array(
@@ -469,23 +469,23 @@ class Sugar_REST {
 				'related_module_name' => 'Cases'
 			)
 		);
-
+		
 		$result = $this->rest_request(
 			'set_note_attachment',
 			$call_arguments
 		);
-
+		
 		return $result;
 	}
-
+	
 	/**
      	* Function:	get_available_modules()
-     	* Description:	Retrieve the list of available modules on the system available
+     	* Description:	Retrieve the list of available modules on the system available        
      	*               to the currently logged in user.
      	* Returns:	Result of API call in an array.
      	*/
 	public function get_available_modules(){
-
+				
 		$call_arguments = array(
             		'session' => $this->session
             	);
@@ -494,9 +494,9 @@ class Sugar_REST {
                         'get_available_modules', $call_arguments
        		 );
 
-        	return $result;
+        	return $result;	
 	}
-
+	
 	    /**
     	* Function:	 search_by_module($search_string, $modules, $offset, $max_results)
     	*
@@ -504,8 +504,8 @@ class Sugar_REST {
     	*				 $modules	    = (string[]) The array of modules to query
     	*				 $offset		= (int) A specified offset in the query
     	*				 $max_results	= (int) Max number of records to return
-    	* Description:   Given a list of modules to search and a search string, return the id,
-   	*                module_name, along with the fields.  We will support Accounts, Bug Tracker,
+    	* Description:   Given a list of modules to search and a search string, return the id, 
+   	*                module_name, along with the fields.  We will support Accounts, Bug Tracker, 
     	*		 Cases, Contacts, Leads, Opportunities, Project, ProjectTask, and Quotes.
     	* Returns:	 Result of API call in an array.
 	*/
@@ -513,7 +513,7 @@ class Sugar_REST {
                 $call_arguments = array(
         		'session' => $this->session,
         		'search_string' => $search_string,
-        		'modules' => $modules,
+        		'modules' => $modules, 
         		'offset' => $offset,
         		'max_results' => $max_results,
         	);
@@ -524,8 +524,8 @@ class Sugar_REST {
 
     		return $result;
    	 }
-
-
+        
+	
 	/**
 	* Function:	is_logged_in()
 	* Parameters: 	none
