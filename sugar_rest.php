@@ -154,7 +154,7 @@ class Sugar_REST {
 			return TRUE;
 		} else {
 			$this->error = $result;
-			if(isset($this->error['name']) && isset($this->error['number']) && isset($this->error['description'])) {
+			if(isset($result['name']) && isset($result['number']) && isset($result['description'])) {
 				$this->error = $result;
 			} else {
 				$this->error['name'] = "Unknown Error";
