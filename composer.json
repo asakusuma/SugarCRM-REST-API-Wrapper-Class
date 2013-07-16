@@ -18,7 +18,7 @@
             "Asakusuma\\SugarWrapper": "src/"
         },
         "classmap": [
-            "src/Asakusuma/SugarWrapper"
+            "src/Asakusuma/SugarWrapper/SugarWrapper.php"
         ]
     },
     "extra": {
