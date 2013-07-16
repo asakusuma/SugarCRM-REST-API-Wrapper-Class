@@ -14,7 +14,7 @@
         "php": ">=5.3.0"
     },
     "autoload": {
-        "classmap": ["src"]
+        "classmap": ["src/Asakusuma/SugarWrapper/"]
     },
     "extra": {
         "branch-alias": {
