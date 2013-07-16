@@ -549,5 +549,3 @@ class SugarRest {
         }
     }
 }
-
-?>
