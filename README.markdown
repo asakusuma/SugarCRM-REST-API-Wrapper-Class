@@ -28,6 +28,7 @@ Contents
 2. Installation via Composer
 ----------------------------
 Edit composer.json
+
 	"repositories": [
 		...
 		
@@ -44,7 +45,7 @@ Edit composer.json
 
 Then install with composer
 
-composer install
+	$ compmoser install
 
 3.Usage Example
 ---------------
