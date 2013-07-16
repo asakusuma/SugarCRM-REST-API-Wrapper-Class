@@ -25,12 +25,26 @@ Contents
 - API docs: http://developers.sugarcrm.com/
 - Designed to work with SugarCRM v.6
 
+2. Installation via Composer
+----------------------------
+Edit composer.json
+	"repositories": [
+		...
+		
+		{
+			"type": "vcs",
+			"url": "https://github.com/spinegar/SugarCRM-REST-API-Wrapper-Class"
+		}
+	]
+	"required": {
+		...
+		
+		"asakusuma/sugar-wrapper": "1.*"
+	}
 
-2.Installation
---------------
-1. Configure by setting the $rest_url, $username, and $password class variables in the sugar_rest.php class file. The username and password of any SugarCRM user should work. It's recommended that you create a new SugarCRM user account to be exclusively used for authenticating API calls.
-2. Just import the class with `require("sugar_rest.php");` and code away!
+Then install with composer
 
+composer install
 
 3.Usage Example
 ---------------
