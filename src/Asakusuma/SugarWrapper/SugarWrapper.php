@@ -10,7 +10,7 @@
  */
 
 
-class SugarREST {
+class SugarRest {
     
     ////////////////////////////////////////
     /// Settings Variables
