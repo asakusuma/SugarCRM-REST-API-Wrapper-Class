@@ -1,8 +1,8 @@
-<?php namespace Way\Generators;
+<?php namespace Asakusuma\SugarWrapper;
 
 use Illuminate\Support\ServiceProvider;
 
-class RestServiceProvider extends ServiceProvider {
+class SugarWrapperServiceProvider extends ServiceProvider {
 
     /**
      * Indicates if loading of the provider is deferred.
