@@ -45,12 +45,11 @@ Edit composer.json
 
 Then install with composer
 
-	$ compmoser install
+	$ composer install
 
 3.Usage Example
 ---------------
-	require_once("sugar_rest.php");
-	$sugar = new Sugar_REST();
+	$sugar = new SugarREST();
 	$results = $sugar->get("Accounts",array('id','name'));
 	print_r($results);
 	
@@ -69,8 +68,7 @@ of SugarCRM.
 >This example outputs the contents of a note's attachment, given the
 >note ID. Assumes $note_id contains the ID of the note you wish to modify.
 
-	require_once("sugar_rest.php");
-	$sugar = new Sugar_REST();
+	$sugar = new SugarREST();
 
 	$result = $sugar->get_note_attachment($note);
 	$filename = $result['note_attachment']['filename'];
@@ -99,8 +97,7 @@ of SugarCRM.
 	</form>
 
 ### PHP Code (example.php)
-	require_once("sugar_rest.php");
-	$sugar = new Sugar_REST();
+	$sugar = new SugarREST();
 	if ($_FILES["note_file"]["error"] > 0) {
     	// Error: $_FILES["file"]["error"]
 	} else if(isset($_FILES['note_file']['tmp_name']) && $_FILES['note_file']['tmp_name']!="") {
@@ -118,8 +115,7 @@ of SugarCRM.
 >
 
 ### PHP Code (example.php)
-	require_once("sugar_rest.php");
-	$sugar = new Sugar_REST();
+	$sugar = new SugarREST();
 	$modules = $sugar->get_available_modules();
 >BAM! Now loop through the array that was returned and stored in $modules.  You could use this
 >to display a dropdown in the admin panel that displays all modules a user would want to connect your
