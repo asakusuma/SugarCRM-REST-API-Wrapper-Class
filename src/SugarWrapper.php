@@ -1,6 +1,4 @@
 <?php
-namespace Asakusuma\SugarCRMWrapperClass;
-
 /**
  * SugarCRM REST API Class
  *

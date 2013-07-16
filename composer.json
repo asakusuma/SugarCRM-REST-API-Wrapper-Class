@@ -1,5 +1,5 @@
 {
-    "name": "Asakusuma/SugarCRMWrapperClass",
+    "name": "asakusuma/sugar-wrapper",
     "description": "SugarCRM REST API Wrapper Class",
     "keywords": ["SugarCRM", "REST", "Wrapper"],
     "homepage": "http://github.com/asakusuma/SugarCRM-REST-API-Wrapper-Class/",
@@ -14,7 +14,7 @@
         "php": ">=5.3.0"
     },
     "autoload": {
-        "psr-0": {"SugarCRMWrapperClass": "src/"}
+        "classmap": ["src"]
     },
     "extra": {
         "branch-alias": {
