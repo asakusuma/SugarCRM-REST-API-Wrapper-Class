@@ -8,7 +8,7 @@ class SugarWrapperServiceProvider extends ServiceProvider {
     {
         $this->app->bind('sugar', function()
         {
-            $sugar = new Sugar;
+            $sugar = new \Asakusuma\SugarWrapper\SugarRest;
 
             $sugar->setUrl('http://sugarcrm/service/v2/rest.php');
             $sugar->setUsername('RestUser');
