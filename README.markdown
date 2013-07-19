@@ -48,7 +48,7 @@ Then install with composer
 
 3.Usage Example
 ---------------
-	$sugar = new \Asakusuma\SugarWrapper\SugarRest;
+	$sugar = new \Asakusuma\SugarWrapper\Rest;
 	
 	$sugar->setUrl('https://sugarcrm/service/v2/rest.php');
 	$sugar->setUsername('user');
@@ -75,7 +75,7 @@ of SugarCRM.
 >This example outputs the contents of a note's attachment, given the
 >note ID. Assumes $note_id contains the ID of the note you wish to modify.
 
-	$sugar = new \Asakusuma\SugarWrapper\SugarRest;
+	$sugar = new \Asakusuma\SugarWrapper\Rest;
 	
 	$sugar->setUrl('https://sugarcrm/service/v2/rest.php');
 	$sugar->setUsername('user');
@@ -110,7 +110,7 @@ of SugarCRM.
 	</form>
 
 ### PHP Code (example.php)
-	$sugar = new \Asakusuma\SugarWrapper\SugarRest;
+	$sugar = new \Asakusuma\SugarWrapper\Rest;
 	
 	$sugar->setUrl('https://sugarcrm/service/v2/rest.php');
 	$sugar->setUsername('user');
@@ -135,7 +135,7 @@ of SugarCRM.
 >
 
 ### PHP Code (example.php)
-	$sugar = new \Asakusuma\SugarWrapper\SugarRest;
+	$sugar = new \Asakusuma\SugarWrapper\Rest;
 	$modules = $sugar->get_available_modules();
 >BAM! Now loop through the array that was returned and stored in $modules.  You could use this
 >to display a dropdown in the admin panel that displays all modules a user would want to connect your
