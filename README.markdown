@@ -38,7 +38,8 @@ Edit composer.json
 		],
 		"required": {
 			"asakusuma/sugarwrapper": "dev-master"
-		}
+		},
+		"minimum-stability": "dev"
 	}
 
 Then install with composer
