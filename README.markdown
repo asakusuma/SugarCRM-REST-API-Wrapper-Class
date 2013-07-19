@@ -37,7 +37,7 @@ Edit composer.json
 			}
 		],
 		"required": {
-			"asakusuma/sugarwrapper": "1.*"
+			"asakusuma/sugarwrapper": "dev-master"
 		}
 	}
 
