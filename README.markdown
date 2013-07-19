@@ -36,7 +36,7 @@ Edit composer.json
 				"url": "https://github.com/spinegar/SugarCRM-REST-API-Wrapper-Class"
 			}
 		],
-		"required": {
+		"require": {
 			"asakusuma/sugarwrapper": "dev-master"
 		},
 		"minimum-stability": "dev"
