@@ -10,7 +10,7 @@
  */
 
 
-class SugarRest {
+class Rest {
     
     ////////////////////////////////////////
     /// Variables
