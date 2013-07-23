@@ -39,12 +39,20 @@
 <body>
 
 <?php
-require_once("sugar_rest.php");
-$sugar = new Sugar_REST();
+$sugar = new \Asakusuma\SugarWrapper\Rest;
+
+$sugar->setUrl('https://sugarcrm/service/v2/rest.php');
+$sugar->setUsername('user');
+$sugar->setPassword('password');
+
+$sugar->connect();
+
 $error = $sugar->get_error();
+
 if($error !== FALSE) {
-	echo $error['name'];
+	return $error['name'];
 }
+
 $results = $sugar->get_with_related("Accounts", array("Accounts" => array('id','name'), "Cases" => array('id','status')));
 $sugar->print_results($results);
 ?>
