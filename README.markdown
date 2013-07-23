@@ -33,7 +33,7 @@ Edit composer.json
 		"repositories": [
 			{
 				"type": "vcs",
-				"url": "https://github.com/spinegar/SugarCRM-REST-API-Wrapper-Class"
+				"url": "https://github.com/asakusuma/SugarCRM-REST-API-Wrapper-Class"
 			}
 		],
 		"require": {
