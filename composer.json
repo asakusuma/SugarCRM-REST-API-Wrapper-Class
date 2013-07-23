@@ -16,10 +16,7 @@
     "autoload": {
 	"psr-0": {
             "Asakusuma\\SugarWrapper": "src/"
-        },
-        "classmap": [
-            "src/Asakusuma/SugarWrapper/SugarWrapper.php"
-        ]
+        }
     },
     "extra": {
         "branch-alias": {
