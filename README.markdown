@@ -37,7 +37,7 @@ Edit composer.json
 			}
 		],
 		"require": {
-			"asakusuma/sugarwrapper": "dev-master"
+			"asakusuma/sugarcrm-wrapper": "dev-master"
 		},
 		"minimum-stability": "dev"
 	}
