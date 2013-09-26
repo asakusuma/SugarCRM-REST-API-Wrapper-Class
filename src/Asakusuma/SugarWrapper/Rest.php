@@ -188,9 +188,12 @@ class Rest {
 
         $ch = curl_init(); 
         
-        $post_data = 'method='.$call_name.'&input_type=JSON&response_type=JSON';
-        $jsonEncodedData = json_encode($call_arguments);
-        $post_data = $post_data . "&rest_data=" . $jsonEncodedData;
+         $post_data = array(
+			'method' => $call_name,
+			'input_type' => 'JSON',
+			'response_type' => 'JSON',
+			'rest_data' => json_encode($call_arguments)
+		);
         
         curl_setopt($ch, CURLOPT_URL, $this->rest_url); 
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
