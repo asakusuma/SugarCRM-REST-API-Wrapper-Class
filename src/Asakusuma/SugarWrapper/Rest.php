@@ -308,7 +308,7 @@ class Rest {
             'select_fields' => $base_fields,
             'link_name_to_fields_array' => $relationships,
             'max_results' => $options['limit'],
-            'deleted' => "FALSE"
+            'deleted' => false
             );
 
         // print_r($this->username); exit;
