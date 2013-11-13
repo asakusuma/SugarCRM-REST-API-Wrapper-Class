@@ -97,8 +97,12 @@ class Rest {
         if($this->login($md5_password)) {
             $this->logged_in = TRUE;
             $data['session'] = $this->session;
+            
+            return true;
         } else {
             $this->logged_in = FALSE;
+            
+            return false;
         }
     }
     
