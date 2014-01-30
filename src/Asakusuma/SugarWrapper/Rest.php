@@ -423,13 +423,15 @@ class Rest {
         }
     }
     
-    public function set_relationship($module_name, $module_id, $link_field_name, $related_ids){
+    public function set_relationship($module_name, $module_id, $link_field_name, $related_ids, $delete = 0){
         $call_arguments = array(
             'session' => $this->session,
             'module_name' => $module_name,
             'module_id' => $module_id,
             'link_field_name' => $link_field_name,
-            'related_ids' => array($related_ids)
+            'related_ids' => array($related_ids),
+            'name_value_list' => array(),
+            'delete' => $delete,
             );
         
         $result = $this->rest_request(
