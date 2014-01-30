@@ -277,10 +277,6 @@ class Rest
         return FALSE;
     }
 
-    private function test(){
-        $this->get_
-    }
-
     /**
      * Retrieves Sugar Bean records. Essentially returns the result of a
      * SELECT SQL statement, given a base module, any number of related of modules,
