@@ -1,0 +1,18 @@
+<phpunit bootstrap="./bootstrap.php" colors="true" processIsolation="false">
+<!--         stopOnFailure="true" stopOnError="true">-->
+    <testsuite name="Library Test Suite">
+        <directory>../tests</directory>
+    </testsuite>
+    <filter>
+        <whitelist>
+            <directory suffix=".php">../src</directory>
+            <exclude>
+            </exclude>
+        </whitelist>
+    </filter>
+    <logging>
+        <log type="coverage-html" target="./log/report" charset="UTF-8"
+            yui="true" highlight="true" lowUpperBound="50" highUpperBound="80" />
+        <log type="testdox" target="./log/testdox.html" />
+    </logging>
+</phpunit>
