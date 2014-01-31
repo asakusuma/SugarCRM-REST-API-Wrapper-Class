@@ -15,4 +15,7 @@
             yui="true" highlight="true" lowUpperBound="50" highUpperBound="80" />
         <log type="testdox" target="./log/testdox.html" />
     </logging>
+    <listeners>
+        <listener class="\Mockery\Adapter\Phpunit\TestListener"></listener>
+    </listeners>
 </phpunit>
