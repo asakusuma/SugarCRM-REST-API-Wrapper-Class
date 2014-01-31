@@ -30,12 +30,6 @@ Contents
 Edit composer.json
 
 	{
-		"repositories": [
-			{
-				"type": "vcs",
-				"url": "https://github.com/asakusuma/SugarCRM-REST-API-Wrapper-Class"
-			}
-		],
 		"require": {
 			"asakusuma/sugarcrm-wrapper": "dev-master"
 		},
