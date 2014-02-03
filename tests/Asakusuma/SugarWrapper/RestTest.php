@@ -766,4 +766,167 @@ class RestTest extends \PHPUnit_Framework_TestCase
             $this->api->search_by_module('Test', array('Accounts'), 0, 100)
         );
     }
+
+    public function testSetNoteAttachmentError()
+    {
+        $this->api->setCurl($this->curl);
+        $this->setUpConnect();
+
+        $fileContents = '{\rtf1\ansi{\fonttbl\f0\fswiss Helvetica;}\f0\pard
+This is some {\b bold} text.\par
+}';
+
+        $binaryContents = base64_encode($fileContents);
+
+        $expected = array(
+            'id' => '-1',
+        );
+
+        $this->curl->shouldReceive('addData')
+            ->once()
+            ->with(
+                array(
+                    'method' => 'set_note_attachment',
+                    'input_type' => 'JSON',
+                    'response_type' => 'JSON',
+                    'rest_data' => json_encode(
+                        array(
+                            'session' => 'mh1262ekdep3klo8urgotb9kf2',
+                            'note'    => array(
+                                'id'                  => 1,
+                                'file'                => $binaryContents,
+                                'filename'            => 'testfile.rtf',
+                                'related_module_name' => 'Cases',
+                            ),
+                        )
+                    ),
+                )
+            )
+            ->andReturnNull();
+
+        $this->curl->shouldReceive('post')
+            ->once()
+            ->andReturn(
+                array(
+                    'body' => json_encode(
+                        $expected
+                    )
+                )
+            );
+
+
+
+        $this->assertEquals(
+            $expected,
+            $this->api->set_note_attachment(1, $binaryContents, 'testfile.rtf')
+        );
+    }
+
+    public function testSetNoteAttachmentReturnsId()
+    {
+        $this->api->setCurl($this->curl);
+        $this->setUpConnect();
+
+        $fileContents = '{\rtf1\ansi{\fonttbl\f0\fswiss Helvetica;}\f0\pard
+This is some {\b bold} text.\par
+}';
+
+        $binaryContents = base64_encode($fileContents);
+
+        $expected = array(
+            'id' => 'b500568b-a7b6-afb1-2298-52ef3f5a5d74',
+        );
+
+        $this->curl->shouldReceive('addData')
+            ->once()
+            ->with(
+                array(
+                    'method' => 'set_note_attachment',
+                    'input_type' => 'JSON',
+                    'response_type' => 'JSON',
+                    'rest_data' => json_encode(
+                        array(
+                            'session' => 'mh1262ekdep3klo8urgotb9kf2',
+                            'note'    => array(
+                                'id'                  => 1,
+                                'file'                => $binaryContents,
+                                'filename'            => 'testfile.rtf',
+                                'related_module_name' => 'Cases',
+                            ),
+                        )
+                    ),
+                )
+            )
+            ->andReturnNull();
+
+        $this->curl->shouldReceive('post')
+            ->once()
+            ->andReturn(
+                array(
+                    'body' => json_encode(
+                        $expected
+                    )
+                )
+            );
+
+
+
+        $this->assertEquals(
+            $expected,
+            $this->api->set_note_attachment(1, $binaryContents, 'testfile.rtf')
+        );
+    }
+
+    public function testGetNoteAttachmentReturnsFile()
+    {
+        $this->api->setCurl($this->curl);
+        $this->setUpConnect();
+
+        $expected = array(
+            'note_attachment' => array(
+                'filename' => 'testfile.rtf',
+                'file'     => 'e1xydGYxXGFuc2l7XGZvbnR0YmxcZjBcZnN3aXNzIEhlbHZldGljYTt9XGYwXHBhcmQKVGhpcyBpcyBzb21lIHtcYiBib2xkfSB0ZXh0LlxwYXIKfQ==',
+            )
+        );
+
+        $this->curl->shouldReceive('addData')
+            ->once()
+            ->with(
+                array(
+                    'method' => 'get_note_attachment',
+                    'input_type' => 'JSON',
+                    'response_type' => 'JSON',
+                    'rest_data' => json_encode(
+                        array(
+                            'session' => 'mh1262ekdep3klo8urgotb9kf2',
+                            'id'      => '1',
+                        )
+                    ),
+                )
+            )
+            ->andReturnNull();
+
+        $this->curl->shouldReceive('post')
+            ->once()
+            ->andReturn(
+                array(
+                    'body' => json_encode(
+                        $expected
+                    )
+                )
+            );
+
+        $this->assertEquals(
+            $expected,
+            $this->api->get_note_attachment('1')
+        );
+    }
+
+    public function testGetNoteAttachmentInvalidIDReturnsFalse()
+    {
+        $this->api->setCurl($this->curl);
+        $this->setUpConnect();
+
+        $this->assertFalse($this->api->get_note_attachment(1));
+    }
 }
