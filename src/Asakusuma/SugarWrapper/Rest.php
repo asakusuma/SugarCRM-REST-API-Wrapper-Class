@@ -2,6 +2,8 @@
 
 namespace Asakusuma\SugarWrapper;
 
+use \Alexsoft\Curl;
+
 /**
  * SugarCRM REST API Class
  *
@@ -58,33 +60,49 @@ class Rest
     private $error = FALSE;
 
     /**
+     * The curl object we use to talk to the API
+     *
+     * @var \Alexsoft\Curl
+     */
+    private $request;
+
+    /**
      * Set the url
      *
      * @param string $url
+     * @return \Asakusuma\SugarWrapper\Rest
      */
     public function setUrl($url = null)
     {
         $this->rest_url = $url;
+
+        return $this;
     }
 
     /**
      * Set the username
      *
      * @param string $username
+     * @return \Asakusuma\SugarWrapper\Rest
      */
     public function setUsername($username = null)
     {
         $this->username = $username;
+
+        return $this;
     }
 
     /**
      * Set the password
      *
      * @param string $password
+     * @return \Asakusuma\SugarWrapper\Rest
      */
     public function setPassword($password = null)
     {
         $this->password = $password;
+
+        return $this;
     }
 
     /**
@@ -139,14 +157,14 @@ class Rest
      */
     public function get_error()
     {
+        $error = TRUE;
+
         if (isset($this->error['name'])) {
             $error = $this->error;
             $this->error = FALSE;
         } else if (is_bool($this->error)) {
             $error = $this->error;
             $this->error = FALSE;
-        } else {
-            $error = TRUE;
         }
 
         return $error;
@@ -167,7 +185,8 @@ class Rest
         $password = ($md5_password ? md5($this->password) : $this->password);
 
         $result = $this->rest_request(
-            'login', array(
+            'login',
+            array(
                 'user_auth' => array(
                     'user_name' => $this->username,
                     'password' => $password
@@ -189,17 +208,42 @@ class Rest
 
         $this->error = $result;
 
-        if (isset($this->error['name']) &&
+        if (!(isset($this->error['name']) &&
             isset($this->error['number']) &&
-            isset($this->error['description'])) {
-            $this->error = $result;
-        } else {
+            isset($this->error['description']))) {
             $this->error['name'] = "Unknown Error";
             $this->error['number'] = -1;
             $this->error['description'] = "We are having technical difficulties. We apologize for the inconvenience.";
         }
 
         return FALSE;
+    }
+
+    /**
+     * Set a curl object, mainly used for testing
+     *
+     * @param \Alexsoft\Curl $curl
+     * @return \Asakusuma\SugarWrapper\Rest
+     */
+    public function setCurl(\Alexsoft\Curl $curl)
+    {
+        $this->request = $curl;
+
+        return $this;
+    }
+
+    /**
+     * Returns the curl object, or creates one
+     *
+     * @return \Alexsoft\Curl
+     */
+    public function getCurl()
+    {
+        if ($this->request === null) {
+            $this->request = new Curl($this->rest_url);
+        }
+
+        return $this->request;
     }
 
     /**
@@ -213,22 +257,18 @@ class Rest
      */
     private function rest_request($call_name, $call_arguments)
     {
-        $ch = curl_init();
-
-        $post_data = array(
-            'method' => $call_name,
-            'input_type' => 'JSON',
-            'response_type' => 'JSON',
-            'rest_data' => json_encode($call_arguments)
+        $request = $this->getCurl();
+        $request->addData(
+            array(
+                'method' => $call_name,
+                'input_type' => 'JSON',
+                'response_type' => 'JSON',
+                'rest_data' => json_encode($call_arguments)
+            )
         );
 
-        curl_setopt($ch, CURLOPT_URL, $this->rest_url);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
-        $output = curl_exec($ch);
-
-        $response_data = json_decode($output, true);
+        $output = $request->post();
+        $response_data = json_decode(html_entity_decode($output['body']), true);
 
         return $response_data;
     }
@@ -311,7 +351,7 @@ class Rest
      * </pre>
      * @return array
      */
-    public function get_with_related($module, $fields, $options = null)
+    public function get_with_related($module, $fields, $options = array())
     {
         if (sizeof($fields) < 1) {
             return FALSE;
@@ -388,7 +428,7 @@ class Rest
      * </pre>
      * @return array
      */
-    public function get($module, $fields, $options = null)
+    public function get($module, $fields, $options = array())
     {
         $results = $this->get_with_related(
             $module,
@@ -436,7 +476,7 @@ class Rest
         );
 
         $result = $this->rest_request(
-                'set_entry', $call_arguments
+            'set_entry', $call_arguments
         );
 
         return $result;
@@ -445,6 +485,7 @@ class Rest
     /**
      * Prints the results of an API call in a nice div layout
      * @param array $results
+     * @codeCoverageIgnore
      */
     public function print_results($results)
     {
@@ -628,6 +669,7 @@ class Rest
 
     /**
      * Closes the API connection when the PHP class object is destroyed
+     * @codeCoverageIgnore
      */
     function __destruct()
     {
