@@ -92,7 +92,7 @@ of SugarCRM.
 	exit;
 
 
-6.get_note_attachment() Example
+6.set_note_attachment() Example
 -------------------------------
 >This example illustrates how to set a note's attachment from an html form.
 >Assumes $note_id contains the ID of the note you wish to modify.
