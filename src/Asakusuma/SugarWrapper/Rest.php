@@ -669,6 +669,7 @@ class Rest
 
     /**
      * Closes the API connection when the PHP class object is destroyed
+     * @codeCoverageIgnore
      */
     function __destruct()
     {

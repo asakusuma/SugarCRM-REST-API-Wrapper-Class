@@ -531,7 +531,14 @@ class RestTest extends \PHPUnit_Framework_TestCase
                                     )
                                 )
                             ),
-                            'relationship_list' => array(),
+                            'relationship_list' => array(
+                                array(
+                                    array(
+                                        'name' => 'user',
+                                        'records' => array(),
+                                    )
+                                ),
+                            ),
                         )
                     )
                 )
@@ -550,10 +557,15 @@ class RestTest extends \PHPUnit_Framework_TestCase
                     ),
                 ),
             ),
-            'relationship_list' => array(),
+            'relationship_list' => array(
+                array(
+                    array(
+                        'name' => 'user',
+                        'records' => array(),
+                    )
+                ),
+            ),
         );
-
-        $this->api->setCurl($this->curl);
 
         $this->assertEquals($expected, $this->api->get_with_related('Accounts', array('Accounts' => array('id', 'name'),'User' => array('id', 'name'))));
     }
@@ -648,5 +660,110 @@ class RestTest extends \PHPUnit_Framework_TestCase
             );
 
         $this->assertEquals($expected, $this->api->get_available_modules());
+    }
+
+    public function testSetRelationship()
+    {
+        $this->api->setCurl($this->curl);
+        $this->setUpConnect();
+
+        $expected = array(
+            'created' => 0,
+            'failed'  => 0,
+            'deleted' => 0,
+        );
+
+        $this->curl->shouldReceive('addData')
+            ->once()
+            ->with(
+                array(
+                    'method' => 'set_relationship',
+                    'input_type' => 'JSON',
+                    'response_type' => 'JSON',
+                    'rest_data' => json_encode(
+                        array(
+                            'session'         => 'mh1262ekdep3klo8urgotb9kf2',
+                            'module_name'     =>'Accounts',
+                            'module_id'       => 1,
+                            'link_field_name' => 'id',
+                            'related_ids'     => array('account_id'),
+                            'name_value_list' => array(),
+                            'delete'          => false,
+                        )
+                    ),
+                )
+            )
+            ->andReturnNull();
+
+        $this->curl->shouldReceive('post')
+            ->once()
+            ->andReturn(
+                array(
+                    'body' => json_encode(
+                        $expected
+                    )
+                )
+            );
+
+        $this->assertEquals(
+            $expected,
+            $this->api->set_relationship(
+                'Accounts',
+                1,
+                'id',
+                'account_id',
+                false
+            )
+        );
+    }
+
+    public function testSearchByModuleReturnsNoResults()
+    {
+        $this->api->setCurl($this->curl);
+        $this->setUpConnect();
+
+        $expected = array(
+            'entry_list' => array(
+                array(
+                    'name'    => 'Accounts',
+                    'records' => array(),
+                ),
+            ),
+        );
+
+        $this->curl->shouldReceive('addData')
+            ->once()
+            ->with(
+                array(
+                    'method' => 'search_by_module',
+                    'input_type' => 'JSON',
+                    'response_type' => 'JSON',
+                    'rest_data' => json_encode(
+                        array(
+                            'session'       => 'mh1262ekdep3klo8urgotb9kf2',
+                            'search_string' =>'Test',
+                            'modules'       => array('Accounts'),
+                            'offset'        => 0,
+                            'max_results'   => 100,
+                        )
+                    ),
+                )
+            )
+            ->andReturnNull();
+
+        $this->curl->shouldReceive('post')
+            ->once()
+            ->andReturn(
+                array(
+                    'body' => json_encode(
+                        $expected
+                    )
+                )
+            );
+
+        $this->assertEquals(
+            $expected,
+            $this->api->search_by_module('Test', array('Accounts'), 0, 100)
+        );
     }
 }
