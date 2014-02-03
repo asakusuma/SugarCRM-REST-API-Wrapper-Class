@@ -43,24 +43,24 @@ Then install with composer
 3.Usage Example
 ---------------
 	$sugar = new \Asakusuma\SugarWrapper\Rest;
-	
+
 	$sugar->setUrl('https://sugarcrm/service/v2/rest.php');
 	$sugar->setUsername('user');
 	$sugar->setPassword('password');
-	
+
 	$sugar->connect();
-	
+
 	$results = $sugar->get("Accounts",array('id','name'));
-	
+
 	print_r($results);
-	
+
 See example.php for another example.
 
 
 4.Notes
 -------
 - The `is_valid_id()` function may need to modify for different versions
-of SugarCRM. 
+of SugarCRM.
 - Different versions of SugarCRM have different ID formats.
 
 
@@ -70,14 +70,14 @@ of SugarCRM.
 >note ID. Assumes $note_id contains the ID of the note you wish to modify.
 
 	$sugar = new \Asakusuma\SugarWrapper\Rest;
-	
+
 	$sugar->setUrl('https://sugarcrm/service/v2/rest.php');
 	$sugar->setUsername('user');
 	$sugar->setPassword('password');
-	
+
 	$sugar->connect();
 
-	$result = $sugar->get_note_attachment($note);
+	$result = $sugar->get_note_attachment($note_id);
 	$filename = $result['note_attachment']['filename'];
 	$file = $result['note_attachment']['file'];
 
@@ -105,13 +105,13 @@ of SugarCRM.
 
 ### PHP Code (example.php)
 	$sugar = new \Asakusuma\SugarWrapper\Rest;
-	
+
 	$sugar->setUrl('https://sugarcrm/service/v2/rest.php');
 	$sugar->setUsername('user');
 	$sugar->setPassword('password');
-	
+
 	$sugar->connect();
-	
+
 	if ($_FILES["note_file"]["error"] > 0) {
     	// Error: $_FILES["file"]["error"]
 	} else if(isset($_FILES['note_file']['tmp_name']) && $_FILES['note_file']['tmp_name']!="") {
@@ -121,10 +121,10 @@ of SugarCRM.
 		$binary = base64_encode($contents);
 		$file_results = $sugar->set_note_attachment($note_id,$binary,$filename);
 	}
-	
+
 7.get_available_modules() Example
 -------------------------------
->This example illustrates how to get the available modules in Sugar.  All of them.  
+>This example illustrates how to get the available modules in Sugar.  All of them.
 >This is a handy function to use when building future proof sugarcrm plugins.
 >
 
@@ -133,4 +133,4 @@ of SugarCRM.
 	$modules = $sugar->get_available_modules();
 >BAM! Now loop through the array that was returned and stored in $modules.  You could use this
 >to display a dropdown in the admin panel that displays all modules a user would want to connect your
->sugarcrm plugin to.  
+>sugarcrm plugin to.
