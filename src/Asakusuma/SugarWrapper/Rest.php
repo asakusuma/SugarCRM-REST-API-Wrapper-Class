@@ -266,6 +266,9 @@ class Rest
                 'rest_data' => json_encode($call_arguments)
             )
         );
+        if($call_name == 'set_entry') {
+            $request->addHeaders(array('Expect'=>' '));
+        }
 
         $output = $request->post();
         $response_data = json_decode(html_entity_decode($output['body']), true);
