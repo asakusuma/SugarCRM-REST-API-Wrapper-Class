@@ -533,6 +533,34 @@ class Rest {
             return $result;
         }
         
+    /**
+     ** Retrieve vardef information on the fields of the specified bean.
+     *
+     * @param String $session -- Session ID returned by a previous call to login.
+     * @param String $module_name -- The name of the module to return records from.  This name should be the name the module was developed under (changing a tab name is studio does not affect the name that should be passed into this method)..
+     * @param Array $fields -- Optional, if passed then retrieve vardef information on these fields only.
+     * @return Array    'module_fields' -- Array - The vardef information on the selected fields.
+     *                  'link_fields' -- Array - The vardef information on the link fields
+     * @exception 'SoapFault' -- The SOAP error, if any
+     */
+    public function get_module_fields($module, $fields = null)
+    {
+        $call_arguments = array(
+            'session' => $this->session,
+            'module_name' => $module,
+            'fields' => is_array($fields) ? $fields : null,
+        );
+
+
+
+        $result = $this->rest_request(
+            'get_module_fields',
+            $call_arguments
+        );
+
+        return $result;
+
+    }
         
     /**
     * Function: is_logged_in()
