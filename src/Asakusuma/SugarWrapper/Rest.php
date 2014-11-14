@@ -111,9 +111,9 @@ class Rest
     }
 
     /**
-     * Get logined user information
+     * Get logged-in user information
      */
-    public function loginedUserInfo()
+    public function loggedInUserInfo()
     {
         return $this->userinfo;
     }
