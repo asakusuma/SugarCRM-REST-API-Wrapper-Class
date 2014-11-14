@@ -53,6 +53,11 @@ class Rest
     private $logged_in = FALSE;
 
     /**
+     * logined user information
+     */
+    private $userinfo = null;
+
+    /**
      * The latest error
      *
      * @var false|array
@@ -103,6 +108,14 @@ class Rest
         $this->password = $password;
 
         return $this;
+    }
+
+    /**
+     * Get logined user information
+     */
+    public function loginedUserInfo()
+    {
+        return $this->userinfo;
     }
 
     /**
@@ -171,6 +184,23 @@ class Rest
     }
 
     /**
+     * Generate simple array from name_value_list of result returned by
+     * API.
+     *
+     * @param array $nvlist name_value_list of API result
+     * @return array
+     */
+    protected function adjustNameValueList($nvlist)
+    {
+        $result = array();
+
+        foreach ($nvlist as $field) {
+            $result[$field['name']] = $field['value'];
+        }
+        return $result;
+    }
+
+    /**
      * Makes a 'login' API call which authenticates based on the $username
      * and $password class variables. If the login call succeeds, sets the
      * $session class variable as the session ID. If it fails, sets the current
@@ -202,6 +232,8 @@ class Rest
 
         if (isset($result['id'])) {
             $this->session = $result['id'];
+            $this->userinfo = $this->adjustNameValueList(
+                $result['name_value_list']);
 
             return TRUE;
         }
@@ -443,13 +475,8 @@ class Rest
 
         if ($results) {
             foreach ($results['entry_list'] as $entry) {
-                $record = array();
-
-                foreach ($entry['name_value_list'] as $field) {
-                    $record[$field['name']] = $field['value'];
-                }
-
-                $records[] = $record;
+                $records[] = $this->adjustNameValueList(
+                    $entry['name_value_list']);
             }
         }
 
