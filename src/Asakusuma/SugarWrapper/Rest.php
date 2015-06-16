@@ -438,7 +438,7 @@ class Rest
         return $result;
     }
 
-    /**
+     /**
      * Retrieves Sugar Bean records. Essentially returns the result of a
      * SELECT SQL statement.
      *
@@ -740,5 +740,140 @@ class Rest
                 )
             );
         }
+    }
+
+    //ADDING FUNCTIONS TO GET A RECORD BASED ON IT'S ID
+
+    /**
+     * Retrieves Sugar Bean record with it's ID. Essentially returns the result of a
+     * SELECT SQL statement.
+     * @param string $id     the id you want to retrieve, based on the
+     *                       module
+     *
+     * @param string $module the SugarCRM module name. Usually first letter
+     *                       capitalized. This is the name of the base module.
+     *                       In other words, any other modules involved in the
+     *                       query will be related to the given base module.
+     *
+     * @param array $fields  Fields you want to get
+     * @param array $options Lets you set options for the query
+     * <pre>
+     * $options['limit'] = Limit how many records returned
+     * $options['offset'] = Query offset
+     * $options['where'] = WHERE clause for an SQL statement
+     * $options['order_by'] = ORDER BY clause for an SQL statement
+     * </pre>
+     * @return array
+     */
+    public function get_by_id($id, $module, $fields,  $options = array())
+    {
+        $results = $this->get_entry(
+            $id,
+            $module,
+            array($module => $fields),
+            $options
+        );
+
+        $records = array();
+
+        if ($results) {
+            foreach ($results['entry_list'] as $entry) {
+                $record[] = $this->adjustNameValueList(
+                    $entry['name_value_list']);
+            }
+        }
+
+        return $record;
+    }
+
+     /**
+     * Retrieves Sugar Bean record based on ID. Essentially returns the result of a
+     * SELECT SQL statement, given a base module, any number of related of modules,
+     * and respective fields for each module. 
+     *
+     * @param string $id     the SugarCRM id to retreive
+     *
+     *
+     * @param string $module the SugarCRM module name. Usually first letter
+     *                       capitalized. This is the name of the base module.
+     *                       In other words, any other modules involved in the
+     *                       query will be related to the given base module.
+     * @param array $fields  the fields you want to retrieve, based on the
+     *                       module:
+     * <pre>
+     *                       array(
+     *                           'Cases' => array(
+     *                               'field_name',
+     *                               'some_other_field_name'
+     *                           ),
+     *                           'Accounts' => array(
+     *                               'field_name',
+     *                               'some_other_field_name'
+     *                           )
+     *                       )
+     * </pre>
+     * @param array $options Lets you set options for the query
+     * <pre>
+     * $options['limit'] = Limit how many records returned
+     * $options['offset'] = Query offset
+     * $options['where'] = WHERE clause for an SQL statement
+     * $options['order_by'] = ORDER BY clause for an SQL statement
+     * </pre>
+     * @return array
+     */
+    public function get_entry($id, $module, $fields, $options = array())
+    {
+        if (sizeof($fields) < 1) {
+            return FALSE;
+        }
+        if (!isset($fields[$module])) {
+            return FALSE;
+        }
+        if(!isset($id)){
+            return FALSE;
+        }
+
+        //Set the defaults for the options
+        $options = array_merge(
+            array(
+                'limit'    => 20,
+                'offset'   => 0,
+                'where'    => null,
+                'order_by' => null,
+            ),
+            $options
+        );
+
+        $base_fields = $fields[$module];
+        unset($fields[$module]);
+
+        $relationships = array();
+
+        foreach ($fields as $related_module => $fields_list) {
+            $relationships[] = array(
+                'name' => strtolower($related_module),
+                'value' => $fields_list
+            );
+        }
+
+        $call_arguments = array(
+            'session' => $this->session,
+            'module_name' => $module,
+            'id' => $id,
+            'query' => $options['where'],
+            'order_by' => $options['order_by'],
+            'offset' => $options['offset'],
+            'select_fields' => $base_fields,
+            'link_name_to_fields_array' => $relationships,
+            'max_results' => $options['limit'],
+            'deleted' => false
+        );
+
+        $result = $this->rest_request(
+            'get_entry',
+            $call_arguments
+        );
+
+        return $result;
     }
 }
