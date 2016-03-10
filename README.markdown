@@ -30,6 +30,12 @@ Contents
 Edit composer.json
 
 	{
+		"repositories": [
+    			{
+    				"type": "vcs",
+        			"url": "https://github.com/Daursu/curl"
+        		}
+    		],
 		"require": {
 			"asakusuma/sugarcrm-wrapper": "dev-master"
 		},
