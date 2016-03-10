@@ -10,12 +10,6 @@
             "name": "Asa Kusuma"
         }
     ],
-    "repositories": [
-    	{
-            "type": "vcs",
-            "url": "https://github.com/Daursu/curl"
-        }
-    ],
     "require": {
         "php": ">=5.3.0",
         "alexsoft/curl": "0.4.*@dev"
