@@ -127,7 +127,7 @@ class Rest
      * @param string $md5_password
      * @return boolean
      */
-    function connect($rest_url = null, $username = null, $password = null, $md5_password = true)
+    public function connect($rest_url = null, $username = null, $password = null, $md5_password = true)
     {
         if (!is_null($rest_url)) {
             $this->rest_url = $rest_url;
