@@ -1,0 +1,21 @@
+{
+	"name": "alexsoft/curl",
+	"description": "cURL wrapper",
+	"keywords": ["php", "curl"],
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Alex Plekhanov"
+		}
+	],
+	"require": {
+		"php": ">=5.4.0",
+		"lib-curl": "*"
+	},
+	"autoload": {
+		"psr-0": {
+			"Alexsoft\\": "src/"
+		}
+	},
+	"minimum-stability": "stable"
+}

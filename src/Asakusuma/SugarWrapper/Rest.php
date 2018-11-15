@@ -124,7 +124,7 @@ class Rest
      * @param string $rest_url
      * @param string $username
      * @param string $password
-     * @param string $md5_password
+     * @param boolean $md5_password
      * @return boolean
      */
     function connect($rest_url = null, $username = null, $password = null, $md5_password = true)
@@ -257,7 +257,7 @@ class Rest
      * @param \Alexsoft\Curl $curl
      * @return \Asakusuma\SugarWrapper\Rest
      */
-    public function setCurl(\Alexsoft\Curl $curl)
+    public function setCurl(Curl $curl)
     {
         $this->request = $curl;
 
@@ -384,7 +384,7 @@ class Rest
      * $options['where'] = WHERE clause for an SQL statement
      * $options['order_by'] = ORDER BY clause for an SQL statement
      * </pre>
-     * @return array
+     * @return array | boolean
      */
     public function get_with_related($module, $fields, $options = array())
     {
@@ -698,9 +698,11 @@ class Rest
      * @param array $modules The array of modules to query
      * @param int $offset A specified offset in the query
      * @param int $max_results Max number of records to return
+     * @param string $assigned_user_id
+     * @param array $fields
      * @return array
      */
-    public function search_by_module($search_string, $modules, $offset, $max_results)
+    public function search_by_module($search_string, $modules, $offset, $max_results, $assigned_user_id = '', $fields = array())
     {
         $call_arguments = array(
             'session' => $this->session,
@@ -708,10 +710,12 @@ class Rest
             'modules' => $modules,
             'offset' => $offset,
             'max_results' => $max_results,
+            'assigned_user_id' => $assigned_user_id,
+            'select_fields' => $fields
         );
 
         $result = $this->rest_request(
-                'search_by_module', $call_arguments
+            'search_by_module', $call_arguments
         );
 
         return $result;
@@ -774,7 +778,7 @@ class Rest
             $options
         );
 
-        $records = array();
+        $record = array();
 
         if ($results) {
             foreach ($results['entry_list'] as $entry) {
@@ -819,7 +823,7 @@ class Rest
      * $options['where'] = WHERE clause for an SQL statement
      * $options['order_by'] = ORDER BY clause for an SQL statement
      * </pre>
-     * @return array
+     * @return array | boolean
      */
     public function get_entry($id, $module, $fields, $options = array())
     {
