@@ -3,3 +3,4 @@ vendor
 tests/log
 composer.phar
 composer.lock
+.idea
