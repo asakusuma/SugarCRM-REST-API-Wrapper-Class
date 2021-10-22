@@ -301,8 +301,6 @@ class Rest
         ]);
 
         $response_data = json_decode(html_entity_decode($request->response), true);
-        var_dump($response_data);exit;
-
         return $response_data;
     }
 
