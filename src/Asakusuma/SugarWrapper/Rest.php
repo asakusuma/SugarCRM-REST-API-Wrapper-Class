@@ -2,7 +2,7 @@
 
 namespace Asakusuma\SugarWrapper;
 
-use \Alexsoft\Curl;
+use \Curl\Curl;
 
 /**
  * SugarCRM REST API Class
@@ -67,7 +67,7 @@ class Rest
     /**
      * The curl object we use to talk to the API
      *
-     * @var \Alexsoft\Curl
+     * @var \Curl\Curl
      */
     private $request;
 
@@ -254,10 +254,10 @@ class Rest
     /**
      * Set a curl object, mainly used for testing
      *
-     * @param \Alexsoft\Curl $curl
+     * @param \Curl\Curl $curl
      * @return \Asakusuma\SugarWrapper\Rest
      */
-    public function setCurl(\Alexsoft\Curl $curl)
+    public function setCurl(\Curl\Curl $curl)
     {
         $this->request = $curl;
 
@@ -267,12 +267,12 @@ class Rest
     /**
      * Returns the curl object, or creates one
      *
-     * @return \Alexsoft\Curl
+     * @return \Curl\Curl
      */
     public function getCurl()
     {
         if ($this->request === null) {
-            $this->request = new Curl($this->rest_url);
+            $this->request = new Curl();
         }
 
         return $this->request;
@@ -290,21 +290,17 @@ class Rest
     private function rest_request($call_name, $call_arguments)
     {
         $request = $this->getCurl();
-        $request->addData(
-            array(
-                'method' => $call_name,
-                'input_type' => 'JSON',
-                'response_type' => 'JSON',
-                'rest_data' => json_encode($call_arguments)
-            )
-        );
-        if($call_name == 'set_entry') {
-            $request->addHeaders(array('Expect'=>' '));
+        if ($call_name == 'set_entry') {
+            $request->setHeader('Expect', ' ');
         }
+        $request->post($this->rest_url, [
+            'method' => $call_name,
+            'input_type' => 'JSON',
+            'response_type' => 'JSON',
+            'rest_data' => json_encode($call_arguments),
+        ]);
 
-        $output = $request->post();
-        $response_data = json_decode(html_entity_decode($output['body']), true);
-
+        $response_data = json_decode(html_entity_decode($request->response), true);
         return $response_data;
     }
 
